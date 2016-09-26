@@ -55,6 +55,10 @@ function convertPolyAttrToPath(cb) {
 ### Markup
 ```
 <img src="../../../assets/images/save-300x600-bg1.jpg" alt="bg1-mask-top" width="300" height="600" class="clip-me" data-polygon="0 197, 0 0, 300 0, 300 163">
+// OR
+<div id="mask-wrapper-1" style="overflow: hidden;">
+	<img src="../../../assets/images/save-300x600-bg1.jpg" alt="bg1-mask-top" width="300" height="600" class="clip-me" data-polygon="0 197, 0 0, 300 0, 300 163">
+</div>
 ```
 USE CLIPPY (http://bennettfeely.com/clippy/) to get the polygon coordinates. These will be in percentages, convert them to pixels (based on height and width of banner), and then put them in the data-polygon attribute within the image you're clipping, and add the class clip-me
 ### JS
@@ -65,6 +69,8 @@ convertPolyAttrToPath(function() {
 		console.log('done with convertPolyAttrToPath')
 				tl
 				.to("#clip-0", 0.5, {attr: {d: 'M300,197L 300 0  300 0  300 163z'}, ease: Expo.easeOut}, "+=1")
+				// OR
+				.to("#mask-wrapper-1", 0.5, {width: 0}, "+=1")
 		})
 })
 ```

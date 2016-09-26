@@ -1,6 +1,8 @@
-# References
-## https://codepen.io/madebyjam/pen/zmBen
-## http://stackoverflow.com/questions/10717190/convert-svg-polygon-to-path
+<!-- References
+https://codepen.io/madebyjam/pen/zmBen
+
+http://stackoverflow.com/questions/10717190/convert-svg-polygon-to-path
+-->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,6 +21,10 @@
 
 	<a href="#" id="bannerLink">
 		 <img src="../../../assets/images/save-300x600-bg1.jpg" alt="bg1-mask-top" width="300" height="600" class="clip-me" data-polygon="0 197, 0 0, 300 0, 300 163">
+		 <!--OR-->
+		 <div id="mask-wrapper-1"  style="overflow: hidden;">
+				<img src="../../../assets/images/save-300x600-bg1.jpg" alt="bg1-mask-top" width="300" height="600" class="clip-me" data-polygon="0 197, 0 0, 300 0, 300 163">
+			</div>
 	</a>
 
 <script>
@@ -75,6 +81,8 @@ convertPolyAttrToPath(function() {
 		console.log('done with convertPolyAttrToPath')
 				tl
 				.to("#clip-0", 0.5, {attr: {d: 'M300,197L 300 0  300 0  300 163z'}, ease: Expo.easeOut}, "+=1")
+				// OR
+				.to("#mask-wrapper-1", 0.5, {width: 0}, "+=1")
 		})
 })
 	
