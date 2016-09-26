@@ -1,0 +1,86 @@
+# References
+## https://codepen.io/madebyjam/pen/zmBen
+## http://stackoverflow.com/questions/10717190/convert-svg-polygon-to-path
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="ad.size" content="width=300,height=600">
+	<meta charset="UTF-8">
+	<title>HTML5-banner-masking</title>
+
+	</style>
+	<script type="text/javascript" src="https://s0.2mdn.net/ads/studio/cached_libs/tweenmax_1.18.0_499ba64a23378545748ff12d372e59e9_min.js"></script> <!-- DoubleClick Greensock CDN (TweenMax) -->
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	
+</head>
+
+<body>
+
+	<a href="#" id="bannerLink">
+		 <img src="../../../assets/images/save-300x600-bg1.jpg" alt="bg1-mask-top" width="300" height="600" class="clip-me" data-polygon="0 197, 0 0, 300 0, 300 163">
+	</a>
+
+<script>
+(function() {
+	var tl = new TimelineMax();
+
+  // USE CLIPPY (http://bennettfeely.com/clippy/) to get the polygon coordinates. These will be in percentages, convert them to pixels (based on height and width of banner), and then put them in the data-polygon attribute within the image you're clipping, and add the class clip-me
+	function convertPolyAttrToPath(cb) {
+		var polys = $('.clip-me');
+		[].forEach.call($(polys), convertPoly);
+
+		function convertPoly(poly){
+			var svgNS = "http://www.w3.org/2000/svg";
+			var path = document.createElementNS(svgNS,'path');
+			var points = $(poly).attr('data-polygon').split(/\s+|,/);
+			var x0=points.shift(), y0=points.shift();
+			var pathdata = 'M'+x0+','+y0+'L'+points.join(' ');
+			if ($(poly).attr('data-polygon')) pathdata+='z';
+			path.setAttribute('d',pathdata);
+			$(poly).attr('data-path', pathdata)
+		}
+		cb();
+	}
+
+	function createCrossBrowserImageMasks(cb) {
+		$('.clip-me').each(function(i) {
+			var maskPath = $(this).attr('data-path');
+			var maskSrc = $(this).attr('src');
+			var maskWidth = $(this).attr('width');
+			var maskHeight = $(this).attr('height');
+			var maskAlt = $(this).attr('alt');
+			var uniqueID = i;
+			//build SVG from our IMG attributes & path coords.
+			var svg = $('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" class="svgMask" width="'
+				+maskWidth+'" height="'
+				+maskHeight+'" viewBox="0 0 '
+				+maskWidth+' '
+				+maskHeight+'"><defs><clipPath id="maskID'
+				+uniqueID+'"><path d="'
+				+maskPath+'"' + 'id="clip-' + uniqueID + '"/></clipPath>  </defs><image clip-path="url(#maskID'
+				+uniqueID+')" width="'
+				+maskWidth+'" height="'
+				+maskHeight+'" xlink:href="'
+				+maskSrc+'"' + ' alt="'
+				+maskAlt+' id="clipmask' +uniqueID+ '" ' + '/></svg>');
+			$(this).replaceWith(svg); //swap original IMG with SVG
+			delete maskPath, maskSrc, maskWidth, maskHeight, maskAlt, uniqueID, svg; //clean up
+		});
+		cb()
+	}
+
+convertPolyAttrToPath(function() {
+	createCrossBrowserImageMasks(function() {
+		console.log('done with convertPolyAttrToPath')
+				tl
+				.to("#clip-0", 0.5, {attr: {d: 'M300,197L 300 0  300 0  300 163z'}, ease: Expo.easeOut}, "+=1")
+		})
+})
+	
+
+
+})();
+</script>
+</body>
+</html>
