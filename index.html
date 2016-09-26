@@ -80,7 +80,7 @@ convertPolyAttrToPath(function() {
 	createCrossBrowserImageMasks(function() {
 		console.log('done with convertPolyAttrToPath')
 				tl
-				.to("#clip-0", 0.5, {attr: {d: 'M300,197L 300 0  300 0  300 163z'}, ease: Expo.easeOut}, "+=1")
+				.to("#clip-0", 0.5, {attr: {d: 'M300,197L 300 0  300 0  300 163z'}, ease: Expo.easeOut}, "+=1") // Path corners, BLX (Bottom Left X coord) BLY TLX TLY TRX TRY BLX BLY 
 				// OR
 				.to("#mask-wrapper-1", 0.5, {width: 0}, "+=1")
 		})
